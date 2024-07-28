@@ -3,47 +3,67 @@
 ## 1. Estructura de recursos
 Asignar correctamente los nombres de tus URL en base a cada método HTTP
 
-| ERROR                                     | CORRECTO                                                                                              |
-|-------------------------------------------|-------------------------------------------------------------------------------------------------------|
-| GET:                                      | GET:                                                                                                  |
-| - `/api/listarClientes`                   | - `/api/v1/clientes` -> indicamos nomenclatura, versión, y nombre en plural                           |
-| - `/api/cliente-eliminar/14`              | - `/api/v1/cliente?id=12` -> también se puede buscar de forma singular por id                         |
-| - `/api/cliente/guardar/25`               | - `/api/v1/cliente/2/telefonos` -> cliente, el id y sus teléfonos (recomendable el /2/ para enmascarar id) |
-|                                           | - `/api/v1/clientes?page=2&size=10&order=desc` -> consulta en clientes la página 2, 10 registros en orden descendente |
+### GET
 
-| POST:                                     | POST: Se trabaja bajo bodies (JSON, formdata...)                                                      |
-| - `/api/listarClientes`                   | - `/api/v1/cliente` -> el body (con id) va por debajo, actualiza el cliente                           |
-| - `/api/cliente/eliminar/24`              | - `/api/v1/usuario/12/restablecer-clave` -> bajo una acción de tipo controlador                       |
-| - `/api/cliente/actualizar?id=25`         |                                                                                                       |
+| ERROR                        | CORRECTO                                                                                          |
+|------------------------------|---------------------------------------------------------------------------------------------------|
+| `/api/listarClientes`        | `/api/v1/clientes` -> indicamos nomenclatura, versión, y nombre en plural                         |
+| `/api/cliente-eliminar/14`   | `/api/v1/cliente?id=12` -> también se puede buscar de forma singular por id                       |
+| `/api/cliente/guardar/25`    | `/api/v1/cliente/2/telefonos` -> cliente, el id y sus teléfonos (recomendable el /2/ para enmascarar id) |
+|                              | `/api/v1/clientes?page=2&size=10&order=desc` -> consulta en clientes la página 2, 10 registros en orden descendente |
 
-| PUT:                                      | PUT: Se trabaja bajo bodies también                                                                  |
-| - `/api/cliente/actualizar?id=25&nombre=Pablo&apellido=Mora&edad=32` | - `/api/v1/cliente` -> el body (con id) va por debajo                                                 |
-| NUNCA SE DEBE MANDAR TODA LA INFORMACIÓN EN LA URL | - `/api/v1/cliente/1`                                                                                   |
-|                                           | - `/api/v1/cliente?id=12` -> no tan recomendable a menos que vaya encriptado, porque ves el id        |
+### POST
 
-| DELETE:                                   |                                                                                                       |
-| - `/api/v1/cliente?id=12`                 | - `/api/v1/cliente/12/`, `/api/v1/cliente` y con body también son formas válidas                      |
+| ERROR                        | CORRECTO                                                                                          |
+|------------------------------|---------------------------------------------------------------------------------------------------|
+| `/api/listarClientes`        | `/api/v1/cliente` -> el body (con id) va por debajo, actualiza el cliente                         |
+| `/api/cliente/eliminar/24`   | `/api/v1/usuario/12/restablecer-clave` -> bajo una acción de tipo controlador                     |
+| `/api/cliente/actualizar?id=25` |                                                                                               |
+
+### PUT
+
+| ERROR                                                        | CORRECTO                                                                                          |
+|--------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
+| `/api/cliente/actualizar?id=25&nombre=Pablo&apellido=Mora&edad=32` | `/api/v1/cliente` -> el body (con id) va por debajo                                               |
+| NUNCA SE DEBE MANDAR TODA LA INFORMACIÓN EN LA URL           | `/api/v1/cliente/1`                                                                               |
+|                                                              | `/api/v1/cliente?id=12` -> no tan recomendable a menos que vaya encriptado, porque ves el id       |
+
+### DELETE
+
+| ERROR                     | CORRECTO                                                                                          |
+|---------------------------|---------------------------------------------------------------------------------------------------|
+| `/api/v1/cliente?id=12`   | `/api/v1/cliente/12/`, `/api/v1/cliente` y con body también son formas válidas                    |
 
 ## 2. Especifica los status code
 Define los status code según su método
 
-| ERROR               | CORRECTO:                |
-|---------------------|--------------------------|
-| GET:                | GET-DELETE:              |
-| - 200 OK            | - 200 OK                 |
+### GET-DELETE
 
-| POST:               | POST:                    |
-| - 200 OK            | - 200 OK                 |
-|                     | - 201 CREATE             |
+| ERROR     | CORRECTO  |
+|-----------|-----------|
+| 200 OK    | 200 OK    |
 
-| PUT:                | PUT:                     |
-| - 200 OK            | - 200 OK                 |
-| - 201 CREATE        | - 201 CREATE             |
+### POST
 
-| ERROR:              |                          |
-|                     | - 404 NOT FOUND          |
-|                     | - 405 METHOD NOT ALLOWED |
-|                     | ...                      |
+| ERROR     | CORRECTO  |
+|-----------|-----------|
+| 200 OK    | 200 OK    |
+|           | 201 CREATE|
+
+### PUT
+
+| ERROR     | CORRECTO  |
+|-----------|-----------|
+| 200 OK    | 200 OK    |
+| 201 CREATE| 201 CREATE|
+
+### ERROR
+
+| CÓDIGO    | DESCRIPCIÓN              |
+|-----------|--------------------------|
+| 404       | NOT FOUND                |
+| 405       | METHOD NOT ALLOWED       |
+| ...       |                          |
 
 ## 3. Estructura del body response
 Debes ser claro con tus Response
