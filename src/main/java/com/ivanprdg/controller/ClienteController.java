@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 import com.ivanprdg.model.dto.ClienteDto;
 import com.ivanprdg.model.entity.Cliente;
 import com.ivanprdg.model.payload.MensajeResponse;
-import com.ivanprdg.service.ICliente;
+import com.ivanprdg.service.IClienteService;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -29,7 +29,7 @@ public class ClienteController {
     private static final Logger logger = LoggerFactory.getLogger(ClienteController.class);
 
     @Autowired
-    private ICliente clienteService;
+    private IClienteService clienteService;
 
     @PostMapping("cliente")
     @ResponseStatus(HttpStatus.CREATED)
@@ -65,28 +65,42 @@ public class ClienteController {
         }
     }
 
-    @PutMapping("cliente")
+    @PutMapping("cliente/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> update(@RequestBody ClienteDto clienteDto) {
+    public ResponseEntity<?> update(@RequestBody ClienteDto clienteDto, @PathVariable Integer id) {
+
+        /* Se realiza con el id ya que en el CRUD repository al guardar 
+        si el id no existe lo crea igual */
 
         Cliente clienteUpdate = null;
-        try {
-
-            clienteUpdate = clienteService.save(clienteDto);
-            logger.info("Updating cliente: " + clienteUpdate);
-
-            clienteDto = ClienteDto.builder()
-            .id_cliente(clienteUpdate.getId_cliente())
-            .nombre(clienteUpdate.getNombre())
-            .apellido(clienteUpdate.getApellido())
-            .correo(clienteUpdate.getCorreo())
-            .fecha_registro(clienteUpdate.getFecha_registro())
-            .build();
-
-            return  new ResponseEntity<>(MensajeResponse.builder()
-            .mensaje("Actualizado correctamente")
-            .object(clienteDto)
-            .build(), HttpStatus.CREATED);
+        try {    
+            //Verificamos si el registro que se intenta actualizar existe        
+            if (clienteService.existsById(id)) {
+                clienteDto.setId_cliente(id); //Seteamos el id porque el cliente se puede equivocar y enviar otro id en el body diferente al de la url
+                clienteUpdate = clienteService.save(clienteDto);
+                logger.info("Updating cliente: " + clienteUpdate);
+    
+                clienteDto = ClienteDto.builder()
+                .id_cliente(clienteUpdate.getId_cliente())
+                .nombre(clienteUpdate.getNombre())
+                .apellido(clienteUpdate.getApellido())
+                .correo(clienteUpdate.getCorreo())
+                .fecha_registro(clienteUpdate.getFecha_registro())
+                .build();
+    
+                return  new ResponseEntity<>(MensajeResponse.builder()
+                .mensaje("Actualizado correctamente")
+                .object(clienteDto)
+                .build(), HttpStatus.CREATED);
+            }
+            else {
+                return new ResponseEntity<>(
+                    MensajeResponse.builder()
+                    .mensaje("El registro que se intenta actualizar no existe").
+                    object(null).
+                    build()
+                    , HttpStatus.NOT_FOUND); //Devolvemos un mensaje de error
+            }
 
         } catch (DataAccessException exDt) {
 

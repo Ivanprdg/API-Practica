@@ -2,7 +2,7 @@ package com.ivanprdg.service;
 import com.ivanprdg.model.dto.ClienteDto;
 import com.ivanprdg.model.entity.Cliente;
 
-public interface ICliente {
+public interface IClienteService {
 
     Cliente save(ClienteDto clienteDto);
 
@@ -10,4 +10,5 @@ public interface ICliente {
 
     void delete(Cliente cliente); //No hay problema con que no sea dto porque miramos por id para eliminar
 
+    boolean existsById(Integer id);
 }

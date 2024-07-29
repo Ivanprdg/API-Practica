@@ -6,12 +6,12 @@ import org.springframework.stereotype.Service;
 import com.ivanprdg.model.dao.ClienteDAO;
 import com.ivanprdg.model.dto.ClienteDto;
 import com.ivanprdg.model.entity.Cliente;
-import com.ivanprdg.service.ICliente;
+import com.ivanprdg.service.IClienteService;
 
 import org.springframework.transaction.annotation.Transactional;
 
 @Service //Indica que esta clase es un servicio
-public class ClienteIMPL implements ICliente{
+public class ClienteImplService implements IClienteService{
 
     @Autowired //Inyección de dependencias
     private ClienteDAO clienteDAO; //Interfaz que extiende de CrudRepository
@@ -41,6 +41,11 @@ public class ClienteIMPL implements ICliente{
     @Override
     public void delete(Cliente cliente) {
         clienteDAO.delete(cliente);
+    }
+
+    @Override
+    public boolean existsById(Integer id) {
+        return clienteDAO.existsById(id);
     }
 
 }
