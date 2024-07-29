@@ -26,12 +26,16 @@ public class Cliente implements Serializable {
     @Column(name = "id_cliente")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_cliente;
+
     @Column(name = "nombre")
     private String nombre;
+
     @Column(name = "apellido")
     private String apellido;
+
     @Column(name = "correo")
-    private String email;
+    private String correo;
+
     @Column(name = "fecha_registro")
     private Date fecha_registro;
 
