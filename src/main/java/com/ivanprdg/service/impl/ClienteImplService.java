@@ -1,5 +1,7 @@
 package com.ivanprdg.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,9 +45,17 @@ public class ClienteImplService implements IClienteService{
         clienteDAO.delete(cliente);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public boolean existsById(Integer id) {
         return clienteDAO.existsById(id);
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Transactional(readOnly = true)
+    @Override
+    public List<Cliente> listAll() {
+        return (List) clienteDAO.findAll();
     }
 
 }

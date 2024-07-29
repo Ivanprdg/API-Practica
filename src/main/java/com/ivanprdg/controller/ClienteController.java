@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -161,6 +163,30 @@ public class ClienteController {
             .correo(cliente.getCorreo())
             .fecha_registro(cliente.getFecha_registro())
             .build())
+            , HttpStatus.OK);
+    }
+
+    @GetMapping("clientes")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<?> showAll() {
+
+        List<Cliente> clientesList = clienteService.listAll();
+        logger.info("Showing clientes");
+
+        if (clientesList == null) {
+            return new ResponseEntity<>(
+                MensajeResponse.builder()
+                .mensaje("No hay registros").
+                object(null).
+                build()
+                , HttpStatus.OK); //Devolvemos un mensaje de error
+        }
+
+        return new ResponseEntity<>(
+            MensajeResponse.builder()
+            .mensaje("Consulta exitosa").
+            object(clientesList).
+            build()
             , HttpStatus.OK);
     }
 }
