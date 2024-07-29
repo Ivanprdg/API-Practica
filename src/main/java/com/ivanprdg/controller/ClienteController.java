@@ -61,7 +61,7 @@ public class ClienteController {
                 .mensaje(exDt.getMessage()).
                 object(null).
                 build()
-                , HttpStatus.INTERNAL_SERVER_ERROR); //Devolvemos un mensaje de error
+                , HttpStatus.METHOD_NOT_ALLOWED); //Devolvemos un mensaje de error
         }
     }
 
@@ -95,7 +95,7 @@ public class ClienteController {
                 .mensaje(exDt.getMessage()).
                 object(null).
                 build()
-                , HttpStatus.INTERNAL_SERVER_ERROR); //Devolvemos un mensaje de error
+                , HttpStatus.METHOD_NOT_ALLOWED); //Devolvemos un mensaje de error
         }
         
     }
@@ -117,7 +117,7 @@ public class ClienteController {
                 .mensaje(exDt.getMessage()).
                 object(null).
                 build()
-                , HttpStatus.INTERNAL_SERVER_ERROR); //Devolvemos un mensaje de error
+                , HttpStatus.METHOD_NOT_ALLOWED); //Devolvemos un mensaje de error
         }
     }
 
@@ -134,7 +134,7 @@ public class ClienteController {
                 .mensaje("El registro que se intenta buscar no existe").
                 object(null).
                 build()
-                , HttpStatus.INTERNAL_SERVER_ERROR); //Devolvemos un mensaje de error
+                , HttpStatus.NOT_FOUND); //Devolvemos un mensaje de error
         }
 
         return new ResponseEntity<>(
