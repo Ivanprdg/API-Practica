@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ivanprdg.model.dao.ClienteDAO;
+import com.ivanprdg.model.dto.ClienteDto;
 import com.ivanprdg.model.entity.Cliente;
 import com.ivanprdg.service.ICliente;
 
@@ -17,7 +18,14 @@ public class ClienteIMPL implements ICliente{
 
     @Transactional
     @Override
-    public Cliente save(Cliente cliente) {
+    public Cliente save(ClienteDto clienteDto) {
+        Cliente cliente = Cliente.builder()
+            .id_cliente(clienteDto.getId_cliente())
+            .nombre(clienteDto.getNombre())
+            .apellido(clienteDto.getApellido())
+            .correo(clienteDto.getCorreo())
+            .fecha_registro(clienteDto.getFecha_registro())
+            .build();
         return clienteDAO.save(cliente);
     }
 
@@ -25,7 +33,7 @@ public class ClienteIMPL implements ICliente{
     de que solo podemos realizar la operacion de lectura y no de escritura*/
     @Transactional(readOnly = true) //Usada para evitar la excepción LazyInitializationException
     @Override
-    public Cliente findById(int id) {
+    public Cliente findById(Integer id) {
         return clienteDAO.findById(id).orElse(null);
     }
 
