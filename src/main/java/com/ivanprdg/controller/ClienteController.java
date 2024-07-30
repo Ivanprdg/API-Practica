@@ -33,7 +33,7 @@ public class ClienteController {
     @Autowired
     private IClienteService clienteService;
 
-    @PostMapping("cliente")
+    @PostMapping("/cliente")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> create(@RequestBody ClienteDto clienteDto) {
 
@@ -67,7 +67,7 @@ public class ClienteController {
         }
     }
 
-    @PutMapping("cliente/{id}")
+    @PutMapping("/cliente/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> update(@RequestBody ClienteDto clienteDto, @PathVariable Integer id) {
 
@@ -116,7 +116,7 @@ public class ClienteController {
         
     }
 
-    @DeleteMapping("cliente/{id}")
+    @DeleteMapping("/cliente/{id}")
     public ResponseEntity<?> delete(@PathVariable Integer id) { //ResponseEntity nos permite devolver un mensaje personalizado
 
         try {
@@ -137,7 +137,7 @@ public class ClienteController {
         }
     }
 
-    @GetMapping("cliente/{id}")
+    @GetMapping("/cliente/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> showById(@PathVariable Integer id) {
 
@@ -166,7 +166,7 @@ public class ClienteController {
             , HttpStatus.OK);
     }
 
-    @GetMapping("clientes")
+    @GetMapping("/clientes")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> showAll() {
 
