@@ -93,7 +93,7 @@ public class ClienteController {
                 return  new ResponseEntity<>(MensajeResponse.builder()
                 .mensaje("Actualizado correctamente")
                 .object(clienteDto)
-                .build(), HttpStatus.CREATED);
+                .build(), HttpStatus.OK);
             }
             else {
                 return new ResponseEntity<>(
@@ -124,7 +124,7 @@ public class ClienteController {
             logger.info("Deleting cliente with id: " + id);
             Cliente clienteDelete = clienteService.findById(id);
             clienteService.delete(clienteDelete);
-            return new ResponseEntity<>(clienteDelete, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(MensajeResponse.builder().mensaje("Borrado correctamente").object(clienteDelete).build(), HttpStatus.OK);
 
         } catch (DataAccessException exDt) {
 
